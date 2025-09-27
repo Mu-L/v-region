@@ -48,28 +48,28 @@
     "vue": "^3.4.0"
   },
   "dependencies": {
-    "v-dropdown": "^3.3.0",
+    "v-dropdown": "^3.5.1",
     "vue": "^3.5.13"
   },
   "devDependencies": {
     "@rushstack/eslint-patch": "^1.10.5",
-    "@vitejs/plugin-vue": "^5.2.1",
-    "@vitejs/plugin-vue-jsx": "^4.1.1",
-    "@vitest/coverage-v8": "^3.0.8",
+    "@vitejs/plugin-vue": "^6.0.1",
+    "@vitejs/plugin-vue-jsx": "^5.1.1",
+    "@vitest/coverage-v8": "^3.2.4",
     "@vue/eslint-config-standard": "^8.0.1",
     "@vue/test-utils": "^2.4.6",
-    "bootstrap": "^5.3.3",
+    "bootstrap": "^5.3.8",
     "eslint": "^8.50.0",
     "eslint-plugin-vue": "^9.17.0",
-    "jsdom": "^26.0.0",
-    "sass": "^1.85.1",
-    "postcss": "^8.5.3",
-    "autoprefixer": "^10.4.20",
-    "typescript": "^5.8.2",
-    "vite": "^6.2.1",
+    "jsdom": "^27.0.0",
+    "sass": "^1.93.2",
+    "postcss": "^8.5.6",
+    "autoprefixer": "^10.4.21",
+    "typescript": "^5.9.2",
+    "vite": "^7.1.7",
     "vite-plugin-css-injected-by-js": "^3.5.2",
-    "vitest": "^3.0.8",
+    "vitest": "^3.2.4",
     "vue-router": "^4.5.0",
-    "vue-tsc": "^2.2.8"
+    "vue-tsc": "^3.0.8"
   }
 }
