@@ -56,3 +56,18 @@ export async function getTowns (area) {
     return []
   }
 }
+export function getTownList (area, commit) {
+  if (!area || !Object.keys(area).length) return commit([])
+
+  return import(`../data/town/${area.key}.json`)
+    .then(data => {
+      commit(!data || typeof data !== 'object'
+        ? []
+        : Object.entries(data).map(([key, value]) => ({ key, value }))
+      )
+      return data
+    })
+    .catch(() => {
+      commit([])
+    })
+}
