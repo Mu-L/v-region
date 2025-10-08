@@ -1,6 +1,6 @@
 import { h, defineComponent } from 'vue'
 import { mergeBaseProps } from '../../core/options'
-import { useRegion } from '../../core/base'
+import { useRegionUI } from '../../core/region-ui'
 
 export default defineComponent({
   name: 'RegionText',
@@ -8,7 +8,7 @@ export default defineComponent({
     separator: { type: String, default: '' }
   }),
   setup (props, { slots }) {
-    const { regionText } = useRegion(props)
+    const { regionText } = useRegionUI(props)
 
     return () => h('span', [regionText.value, slots.default?.()])
   }

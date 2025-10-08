@@ -1,7 +1,7 @@
 import { ref, defineComponent, inject } from 'vue'
 import { useDropdown } from 'v-dropdown'
 
-import { injectKeyCore, injectKeyBase } from '../../constants'
+import { keyCore, keyInternal } from '../../constants'
 import { scrollIntoElement } from '../../core/helper'
 
 export default defineComponent({
@@ -10,13 +10,13 @@ export default defineComponent({
     level: { type: String, default: '' }
   },
   setup (props, { expose }) {
-    const { data, lang, setLevel } = inject(injectKeyCore)
-    const { blank } = inject(injectKeyBase)
+    const { data, lang, setLevel } = inject(keyCore)
+    const { blank } = inject(keyInternal)
     const { close } = useDropdown()
     const list = ref()
 
     const selectItem = item => {
-      setLevel(props.level, item)
+      setLevel(props.level, item.key)
       close()
     }
     const scrollToSelectedItem = () => scrollIntoElement(list.value, '.selected')

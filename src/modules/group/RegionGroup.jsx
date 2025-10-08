@@ -4,8 +4,8 @@ import { ref, defineComponent } from 'vue'
 import { useDropdown } from 'v-dropdown'
 
 import { mergeBaseProps, mergeEmits } from '../../core/options'
-import { useRegion } from '../../core/base'
-import { LEVELS, KEY_PROVINCE } from '../../constants'
+import { useRegionUI } from '../../core/region-ui'
+import { LEVELS, LEVEL_KEYS, PROVINCE } from '../../constants'
 
 import IconTrash from '../../icons/IconTrash.vue'
 
@@ -17,34 +17,31 @@ export default defineComponent({
     const {
       data,
       lang,
-      availableLevels,
-      getNextLevel,
+      isComplete,
       setLevel,
       regionText,
       reset
-    } = useRegion(props, emit)
+    } = useRegionUI(props, emit)
     const { close } = useDropdown()
 
-    const level = ref(KEY_PROVINCE)
+    const level = ref(PROVINCE)
 
     function clear () {
       reset()
-      level.value = KEY_PROVINCE
+      level.value = PROVINCE
     }
     async function selectItem (item) {
       if (!level.value) return
 
-      await setLevel(level.value, item)
-      const next = getNextLevel(level.value)
+      await setLevel(level.value, item.key)
 
-      if (!next) {
+      if (isComplete()) {
         close?.()
         return emit('complete')
       }
-
-      level.value = next
+      level.value = LEVEL_KEYS.at(LEVEL_KEYS.indexOf(level.value) + 1)
     }
-    function isMatch (item) {
+    function isSelected (item) {
       if (!item) return false
       if (!level.value) return false
       return data.value[level.value]?.key === item.key
@@ -65,19 +62,18 @@ export default defineComponent({
       )
     }
     function GroupTabs () {
-      const switchLevel = (item) => { level.value = item.key }
-      const tabs = availableLevels.value.map(val => {
-        const levelItem = LEVELS.find(value => value.key === val)
+      const tabs = LEVELS.map(value => {
+        if (!data.value[value.level].enable) return null
         return (
           <li
-            class={{ active: levelItem.key === level.value }}
-            key={levelItem.key}
+            class={{ active: value.level === level.value }}
+            key={value.level}
           >
             <a
               href='javascript:void(0)'
-              onClick={() => switchLevel(levelItem)}
+              onClick={() => { level.value = value.level }}
             >
-              {levelItem.title}
+              {value.title}
             </a>
           </li>
         )
@@ -94,7 +90,7 @@ export default defineComponent({
       const levelItems = list.map(val => (
         <li
           key={val.key}
-          class={['rg-item', { active: isMatch(val) }]}
+          class={['rg-item', { active: isSelected(val) }]}
           onMouseup={() => selectItem(val)}
         >{val.value}</li>
       ))

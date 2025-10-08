@@ -5,11 +5,10 @@ import { provide, defineComponent } from 'vue'
 import RegionSelectLevel from './SelectLevel'
 
 import {
-  KEY_PROVINCE, KEY_CITY, KEY_AREA,
-  injectKeyBase
+  PROVINCE, CITY, AREA, keyInternal
 } from '../../constants'
 import { mergeBaseProps, mergeEmits } from '../../core/options'
-import { useRegion } from '../../core/base'
+import { useRegionUI } from '../../core/region-ui'
 
 export default defineComponent({
   name: 'RegionSelects',
@@ -19,22 +18,20 @@ export default defineComponent({
   }),
   emits: mergeEmits(),
   setup (props, { emit, slots }) {
-    const { hasCity, hasArea } = useRegion(props, emit)
+    const { hasCity, hasArea } = useRegionUI(props, emit)
 
-    provide(injectKeyBase, {
-      blank: props.blank
-    })
+    provide(keyInternal, { blank: props.blank })
 
-    function RegionLevel ({ hasLevel = true, level }) {
-      if (!hasLevel) return null
+    function RegionLevel ({ enable = true, level }) {
+      if (!enable) return null
       return <RegionSelectLevel level={level} />
     }
 
     return () => (
       <div class="rg-selects">
-        <RegionLevel level={KEY_PROVINCE} />
-        <RegionLevel level={KEY_CITY} hasLevel={hasCity.value} />
-        <RegionLevel level={KEY_AREA} hasLevel={hasArea.value} />
+        <RegionLevel level={PROVINCE} />
+        <RegionLevel level={CITY} enable={hasCity.value} />
+        <RegionLevel level={AREA} enable={hasArea.value} />
         {slots.default?.()}
       </div>
     )

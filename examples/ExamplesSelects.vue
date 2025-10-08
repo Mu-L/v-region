@@ -42,6 +42,22 @@
         省、市、区/县、乡/镇/街道
       </h5>
       <div class="my-3">
+        <div>
+          <div class="form-check form-check-inline">
+            <input
+              class="form-check-input"
+              type="checkbox"
+              id="inlineCheckboxCity"
+              v-model="autoSelectFirst"
+              :true-value="true"
+              :false-value="false"
+            >
+            <label
+              class="form-check-label"
+              for="inlineCheckboxCity"
+            >自动选择第一项</label>
+          </div>
+        </div>
         <div class="form-check form-check-inline">
           <input
             class="form-check-input"
@@ -115,6 +131,7 @@
           :city="enabledCity"
           :area="enabledArea"
           :town="enabledTown"
+          :auto-select-first="autoSelectFirst"
           v-model="modelSelect"
           v-model:names="names"
           @change="change"
@@ -169,7 +186,7 @@
 
       <region-full-selects
         :town="true"
-        :disabled="false"
+        :disabled="true"
         v-model="fullSelected"
         @change="fullChangeSelected"
       />
@@ -193,6 +210,7 @@ import { RegionSelects, RegionFullSelects } from '@/'
 
 const value1 = ref({})
 const names = ref([])
+const autoSelectFirst = ref(false)
 const selected = ref({
   province: '350000',
   city: '350100',

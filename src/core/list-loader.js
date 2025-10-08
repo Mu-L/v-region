@@ -6,68 +6,51 @@ import { regionCities, regionAreas } from '../formatted'
  * @param {object} province - 省
  * @returns {object[]} - 城市列表
  */
-export async function getCities (province) {
+export function getCities (province) {
   if (!province || !Object.keys(province).length) return []
 
+  const code = Number.parseInt(province.key)
   const list = regionCities.filter(val => {
-    const num = Number.parseInt(province.key)
-    return (val.key - num) < 1e4 && (val.key % num) < 1e4
+    const current = Number.parseInt(val.key)
+    return (current - code) < 1e4 && (current % code) < 1e4
   })
-  // Municipalities directly under the central government
+  // 城市/直辖市
   return list.length ? list : [province]
 }
-
 /**
  * 根据城市读取区/县列表
  *
- * @param {object} city - 城市
+ * @param {string} cityKey - 城市
  * @returns {object[]} 区/县列表
  */
-export async function getAreas (city) {
-  if (!city || !Object.keys(city).length) return []
+export function getAreas (cityKey) {
+  if (!cityKey) return []
 
-  const cityKey = Number.parseInt(city.key)
-  const isNotProvince = cityKey % 1e4
+  const city = Number.parseInt(cityKey.key)
+  const isNotProvince = city % 1e4
   const calcNum = isNotProvince ? 100 : 1e4
-  const list = regionAreas.filter(val => {
-    return (val.key - cityKey) < calcNum && val.key % cityKey < calcNum
-  })
-  // Prefecture-level city
-  return list.length ? list : [city]
+  const list = regionAreas.filter(val => (
+    (val.key - city) < calcNum && val.key % city < calcNum
+  ))
+  // 区县/地级市
+  return list.length ? list : [cityKey]
 }
 /**
  * 根据区/县数据读取乡/镇列表
  *
  * @param {object} area - 区/县
- * @returns {object[]} 乡/镇列表
+ * @returns {Promise<object[]>} 乡/镇列表
  */
-export async function getTowns (area) {
-  if (!area || !Object.keys(area).length) return []
-
-  try {
-    const { default: data } = await import(`../data/town/${area.key}.json`)
-    // console.log(towns)
-    if (!data || typeof data !== 'object') {
-      return []
-    }
-    return Object.entries(data).map(([key, value]) => ({ key, value }))
-  } catch (e) {
-    console.warn(`The "${area.value}" area have no towns data.`)
-    return []
-  }
-}
-export function getTownList (area, commit) {
-  if (!area || !Object.keys(area).length) return commit([])
+export function getTowns (area) {
+  if (!area || !Object.keys(area).length) return Promise.resolve([])
 
   return import(`../data/town/${area.key}.json`)
-    .then(data => {
-      commit(!data || typeof data !== 'object'
+    .then(resp => {
+      const data = resp.default
+      const list = !data || typeof data !== 'object'
         ? []
         : Object.entries(data).map(([key, value]) => ({ key, value }))
-      )
-      return data
+      return list
     })
-    .catch(() => {
-      commit([])
-    })
+    .catch(() => {})
 }

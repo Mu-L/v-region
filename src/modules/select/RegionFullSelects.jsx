@@ -1,6 +1,6 @@
 import { defineComponent, inject } from 'vue'
 
-import { injectKeyCore, KEY_TOWN } from '../../constants'
+import { keyCore, TOWN } from '../../constants'
 import { getTowns } from '../../core/list-loader'
 
 import RegionSelects from './RegionSelects'
@@ -10,18 +10,14 @@ export default defineComponent({
   name: 'RegionFullSelects',
   setup () {
     function RegionSelectTown () {
-      const { hasTown, setupTownListLoader } = inject(injectKeyCore)
+      const { hasTown, setupTownListLoader } = inject(keyCore)
 
       setupTownListLoader(getTowns)
 
       if (!hasTown.value) return null
-      return <RegionSelectLevel level={KEY_TOWN} />
+      return <RegionSelectLevel level={TOWN} />
     }
 
-    return () => (
-      <RegionSelects>
-        <RegionSelectTown />
-      </RegionSelects>
-    )
+    return () => <RegionSelects><RegionSelectTown /></RegionSelects>
   }
 })

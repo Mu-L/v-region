@@ -2,10 +2,10 @@ import '../../styles/column.sass'
 
 import { defineComponent, nextTick, provide, watch } from 'vue'
 
-import { useRegion } from '../../core/base'
+import { useRegionUI } from '../../core/region-ui'
 import { mergeBaseProps, mergeEmits } from '../../core/options'
 import {
-  KEY_PROVINCE, KEY_CITY, KEY_AREA, injectKeyBase
+  PROVINCE, CITY, AREA, keyInternal
 } from '../../constants'
 import { useDropdown } from 'v-dropdown'
 
@@ -16,14 +16,14 @@ export default defineComponent({
   props: mergeBaseProps(),
   emits: mergeEmits(['complete']),
   setup (props, { emit, slots }) {
-    const { hasCity, hasArea } = useRegion(props, emit, {
+    const { hasCity, hasArea, hasTown } = useRegionUI(props, emit, {
       afterModelChange
     })
     const { visible, close } = useDropdown()
     // 各级别列表滚动处理函数集
     const levelListScrollHandles = []
 
-    provide(injectKeyBase, {
+    provide(keyInternal, {
       selectionComplete: () => {
         close?.()
         emit('complete')
@@ -34,6 +34,7 @@ export default defineComponent({
     function afterModelChange () {
       // dropdown 打开的状态下，v-model 变更通常是 ui 操作，所以不处理滚动
       if (visible) return
+      // 数据变更后，将选中项目滚动至可见位置
       doLevelListScroll()
     }
     // 响应 dropdown open 与 core module v-model change
@@ -42,9 +43,9 @@ export default defineComponent({
         nextTick(fn)
       })
     }
-    function RegionColumnLevel ({ level, hasLevel = true }) {
-      if (!hasLevel) return null
-      return <ColumnLevel level={level} />
+    function RegionColumnLevel ({ level, enable = true, hasNext }) {
+      if (!enable) return null
+      return <ColumnLevel level={level} hasNext={hasNext.value} />
     }
 
     if (visible) {
@@ -53,9 +54,9 @@ export default defineComponent({
 
     return () => (
       <div class='rg-column-container'>
-        <RegionColumnLevel level={KEY_PROVINCE} />
-        <RegionColumnLevel level={KEY_CITY} hasLevel={hasCity} />
-        <RegionColumnLevel level={KEY_AREA} hasLevel={hasArea} />
+        <RegionColumnLevel level={PROVINCE} hasNext={hasCity} />
+        <RegionColumnLevel level={CITY} hasNext={hasArea} enable={hasCity} />
+        <RegionColumnLevel level={AREA} hasNext={hasTown} enable={hasArea} />
         {slots.default?.()}
       </div>
     )

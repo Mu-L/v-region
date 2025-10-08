@@ -1,6 +1,6 @@
-import { inject, ref } from 'vue'
+import { inject, ref, toRef } from 'vue'
 
-import { injectKeyCore, injectKeyBase } from '../../constants'
+import { keyCore, keyInternal } from '../../constants'
 import { scrollIntoElement } from '../../core/helper'
 
 import IconChevronRight from '../../icons/IconChevronRight.vue'
@@ -8,31 +8,28 @@ import IconChevronRight from '../../icons/IconChevronRight.vue'
 export default {
   name: 'RegionColumn',
   props: {
-    level: { type: String, default: '' }
+    level: { type: String, default: '' },
+    hasNext: { type: Boolean, default: false }
   },
   setup (props) {
     const { level } = props
-    const { data, setLevel, getNextLevel, isComplete } = inject(injectKeyCore)
+    const hasNext = toRef(props, 'hasNext')
+    const { data, setLevel, isComplete } = inject(keyCore)
     const {
       selectionComplete, setLevelListScroll
-    } = inject(injectKeyBase)
+    } = inject(keyInternal)
     const regionLevel = data.value[level]
     const root = ref()
 
-    function setColumnsLevel (item) {
-      setLevel(level, item)
-      if (isComplete.value) selectionComplete()
+    async function setColumnsLevel (item) {
+      await setLevel(level, item.key)
+      if (isComplete()) selectionComplete()
     }
-
+    const HasChildIcon = () => hasNext.value ? <IconChevronRight /> : null
     // 提交滚动处理至父组件进行注册
     setLevelListScroll(() => scrollIntoElement(root.value, '.selected'))
 
     return () => {
-      const nextLevel = getNextLevel(level)
-      function HasChildIcon () {
-        if (!nextLevel) return null
-        return <IconChevronRight />
-      }
       const items = regionLevel.list.map(item => (
         <li
           key={item.key}

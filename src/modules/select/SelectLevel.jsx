@@ -3,7 +3,7 @@ import { inject, computed, defineComponent, ref } from 'vue'
 import { Dropdown, DropdownContent, DropdownTrigger } from 'v-dropdown'
 import SelectLevelList from './SelectLevelList'
 
-import { injectKeyCore, injectKeyBase } from '../../constants'
+import { keyCore, keyInternal } from '../../constants'
 
 export default defineComponent({
   name: 'RegionSelect',
@@ -11,8 +11,8 @@ export default defineComponent({
     level: { type: String, default: '' }
   },
   setup (props) {
-    const { data, disabled, lang } = inject(injectKeyCore)
-    const { blank } = inject(injectKeyBase)
+    const { data, disabled, lang } = inject(keyCore)
+    const { blank } = inject(keyInternal)
     const list = ref()
 
     const blankContent = blank ? lang.pleaseSelect : '&nbsp;'

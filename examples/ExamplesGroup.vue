@@ -189,7 +189,7 @@ import {
   RegionDropdown
 } from '../src'
 import { model1 } from '@/__tests__/data'
-import { listToText, modelToValues } from '../src/core/parse'
+import { modelToText } from '../src/core/parse'
 
 const model = ref(model1)
 const values = ref(undefined)
@@ -232,7 +232,7 @@ function resultText (region) {
   if (!Object.values(region).some(val => val) || !region) {
     return '无数据'
   }
-  return listToText(modelToValues(region), ',')
+  return modelToText(region, 'value', ',')
 }
 function reset () {
   // regionSelected.value.reset()

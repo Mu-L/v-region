@@ -15,7 +15,7 @@ export function mergeBaseProps (props) {
     area: { type: Boolean, default: true },
     town: { type: Boolean, default: true },
     language: { type: String, default: CN },
-    autoSelectFirst: { type: Boolean, default: true },
+    autoSelectFirst: { type: Boolean, default: false },
     modelValue: { type: Object, default: undefined }
   }, props)
 }

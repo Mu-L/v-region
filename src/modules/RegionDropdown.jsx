@@ -2,7 +2,7 @@ import { ref, defineComponent, provide } from 'vue'
 
 import { Dropdown, DropdownTrigger, DropdownContent } from 'v-dropdown'
 
-import { injectDropdown } from '../constants'
+import { keyDropdown } from '../constants'
 
 export default defineComponent({
   name: 'RegionDropdown',
@@ -13,16 +13,14 @@ export default defineComponent({
   setup (props, { slots }) {
     const triggerText = ref('')
 
-    const setTriggerText = text => {
-      triggerText.value = text
-    }
+    const setTriggerText = text => { triggerText.value = text }
 
     function RegionDropdownTrigger (data) {
       if (slots.trigger) return slots.trigger(data)
       return <DropdownTrigger>{triggerText.value}</DropdownTrigger>
     }
 
-    provide(injectDropdown, { setTriggerText })
+    provide(keyDropdown, { setTriggerText })
 
     return () => {
       const dropdownSlots = {

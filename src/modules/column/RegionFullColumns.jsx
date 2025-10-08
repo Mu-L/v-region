@@ -1,6 +1,6 @@
 import { inject, defineComponent } from 'vue'
 
-import { injectKeyCore, KEY_TOWN } from '../../constants'
+import { keyCore, TOWN } from '../../constants'
 import { getTowns } from '../../core/list-loader'
 
 import RegionColumns from './RegionColumns'
@@ -10,17 +10,13 @@ export default defineComponent({
   name: 'RegionFullColumns',
   setup () {
     function LevelTown () {
-      const { hasTown, setupTownListLoader } = inject(injectKeyCore)
+      const { hasTown, setupTownListLoader } = inject(keyCore)
       setupTownListLoader(getTowns)
 
       if (!hasTown.value) return null
-      return <ColumnLevel level={KEY_TOWN} />
+      return <ColumnLevel level={TOWN} />
     }
 
-    return () => (
-      <RegionColumns>
-        <LevelTown />
-      </RegionColumns>
-    )
+    return () => <RegionColumns><LevelTown /></RegionColumns>
   }
 })

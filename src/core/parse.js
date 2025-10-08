@@ -12,6 +12,15 @@ import { regionProvinces, regionCities } from '../formatted'
 export function listToText (list, separator = '') {
   return Array.isArray(list) ? list.join(separator) : ''
 }
+export function getEmptyValues (values) {
+  const emptyValues = {
+    province: undefined,
+    city: undefined,
+    area: undefined,
+    town: undefined
+  }
+  return Object.assign({}, emptyValues, values)
+}
 /**
  * 区域完整数据模型转换为入参数据模型
  * @param {InternalModel} model - 内部数据模型
@@ -21,7 +30,7 @@ export function listToText (list, separator = '') {
 export function modelToValue (model, property) {
   if (!model) return {}
   return Object.fromEntries(
-    Object.entries(model).map(([key, value]) => [key, value && value[property]])
+    Object.entries(model).map(([key, value]) => [key, value?.[property]])
   )
 }
 /**
@@ -47,8 +56,8 @@ export function modelToValues (model, property) {
  * @param {RegionModel | InternalModel} model 数据模型
  * @returns {string}
  */
-export function modelToText (model, separator = '') {
-  return listToText(modelToValues(model, 'value'), separator)
+export function modelToText (model, property, separator = '') {
+  return listToText(modelToValues(model, property), separator)
 }
 /**
  * 组织城市选择器的城市目录清单，使用省份进行分组

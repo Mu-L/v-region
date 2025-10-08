@@ -1,11 +1,9 @@
 import data from './data/data.json'
 
 // xx0000 为省级编码格式
-function isProvince (key) {
-  return !(Number(key) % 1e4)
-}
+const isProvince = key => !(Number(key) % 1e4)
 // xxxx00 为市级编码格式
-function isCity (key) {
+const isCity = key => {
   if (!(Number(key) % 100)) {
     return true
   }
@@ -28,8 +26,8 @@ const cities = []
 // 区/县模型列表
 const areas = []
 
-Object.entries(data).forEach(val => {
-  const [key, value] = val
+Object.entries(data).forEach(([key, value]) => {
+  // const [key, value] = val
   const model = { key, value }
   list.push(model)
 
@@ -44,6 +42,7 @@ Object.entries(data).forEach(val => {
   areas.push(model)
 })
 
+// export { data as dataMap }
 export { list as regionFull }
 export { provinces as regionProvinces }
 export { cities as regionCities }

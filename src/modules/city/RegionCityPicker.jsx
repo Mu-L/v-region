@@ -12,7 +12,7 @@ import {
 } from '../../core/helper'
 import { mergeEmits } from '../../core/options'
 import { CN } from '../../language'
-import { injectDropdown } from '../../constants'
+import { keyDropdown } from '../../constants'
 
 import IconSearch from '../../icons/IconSearch.vue'
 import IconTrash from '../../icons/IconTrash.vue'
@@ -32,7 +32,7 @@ export default defineComponent({
 
     const inputRef = ref()
     const selected = ref([])
-    const { setTriggerText } = inject(injectDropdown, {})
+    const { setTriggerText } = inject(keyDropdown, {})
 
     watch(() => props.modelValue, modelValueChange, { immediate: true })
 

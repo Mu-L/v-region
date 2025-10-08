@@ -160,7 +160,7 @@ import {
   RegionFullColumns,
   RegionDropdown
 } from '../src'
-import { listToText, modelToValues } from '../src/core/parse'
+import { modelToText } from '../src/core/parse'
 
 const model = {
   province: '410000',
@@ -200,7 +200,7 @@ function resultText (region) {
   if (!Object.values(region).some(val => val) || !region) {
     return '无数据'
   }
-  return listToText(modelToValues(region), ',')
+  return modelToText(region, 'value', ',')
 }
 function reset () {
   // columnCore.value.reset()
