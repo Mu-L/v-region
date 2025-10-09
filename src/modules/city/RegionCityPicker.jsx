@@ -21,7 +21,8 @@ export default defineComponent({
   name: 'RegionCityPicker',
   props: {
     language: { type: String, default: CN },
-    modelValue: { type: Array, default: undefined }
+    modelValue: { type: Array, default: undefined },
+    separator: { type: String, default: '' }
   },
   emits: mergeEmits(),
   setup (props, { emit, expose }) {
@@ -98,7 +99,7 @@ export default defineComponent({
       const names = modelsToValues(selected.value, 'value')
       emit('update:names', names)
       emit('change', selected.value)
-      setTriggerText?.(listToText(names, ',') || lang.pleaseSelect)
+      setTriggerText?.(listToText(names, props.separator || ',') || lang.pleaseSelect)
     }
 
     function CitySearch () {

@@ -112,6 +112,7 @@
             @closed="closed"
           >
             <RegionGroup
+              separator=","
               :city="true"
               :area="true"
               :town="true"
@@ -124,7 +125,10 @@
 
         <div>
           <RegionDropdown>
-            <RegionFullGroup v-model="modelFullGroup" />
+            <RegionFullGroup
+              separator="-"
+              v-model="modelFullGroup"
+            />
           </RegionDropdown>
         </div>
       </div>

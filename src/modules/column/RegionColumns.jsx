@@ -13,7 +13,9 @@ import ColumnLevel from './ColumnLevel'
 
 export default defineComponent({
   name: 'RegionColumns',
-  props: mergeBaseProps(),
+  props: mergeBaseProps({
+    separator: { type: String, default: '' }
+  }),
   emits: mergeEmits(['complete']),
   setup (props, { emit, slots }) {
     const { hasCity, hasArea, hasTown } = useRegionUI(props, emit, {

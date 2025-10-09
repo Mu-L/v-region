@@ -59,6 +59,7 @@
             <RegionCityPicker
               language="EN"
               v-model="modelCity"
+              separator="-"
               @change="cbCity"
             />
           </RegionDropdown>

@@ -11,7 +11,9 @@ import IconTrash from '../../icons/IconTrash.vue'
 
 export default defineComponent({
   name: 'RegionGroup',
-  props: mergeBaseProps(),
+  props: mergeBaseProps({
+    separator: { type: String, default: '' }
+  }),
   emits: mergeEmits(['complete']),
   setup (props, { emit, slots }) {
     const {

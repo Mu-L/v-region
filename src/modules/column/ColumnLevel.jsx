@@ -12,24 +12,22 @@ export default {
     hasNext: { type: Boolean, default: false }
   },
   setup (props) {
-    const { level } = props
     const hasNext = toRef(props, 'hasNext')
     const { data, setLevel, isComplete } = inject(keyCore)
-    const {
-      selectionComplete, setLevelListScroll
-    } = inject(keyInternal)
-    const regionLevel = data.value[level]
+    const { selectionComplete, setLevelListScroll } = inject(keyInternal)
+    const regionLevel = data.value[props.level]
     const root = ref()
 
     async function setColumnsLevel (item) {
-      await setLevel(level, item.key)
-      if (isComplete()) selectionComplete()
+      await setLevel(props.level, item.key)
+      isComplete() && selectionComplete()
     }
     const HasChildIcon = () => hasNext.value ? <IconChevronRight /> : null
     // 提交滚动处理至父组件进行注册
     setLevelListScroll(() => scrollIntoElement(root.value, '.selected'))
 
     return () => {
+      if (!regionLevel.list.length) return null
       const items = regionLevel.list.map(item => (
         <li
           key={item.key}
@@ -40,7 +38,6 @@ export default {
           <HasChildIcon />
         </li>
       ))
-      if (!items.length) return null
       return <ul ref={root} class='rg-column'>{items}</ul>
     }
   }

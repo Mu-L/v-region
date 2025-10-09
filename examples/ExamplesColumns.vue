@@ -10,6 +10,7 @@
           <RegionDropdown>
             <RegionColumns
               language="en"
+              separator=","
               :city="true"
               :area="true"
               :town="true"
@@ -22,7 +23,7 @@
         </div>
         <div>
           <RegionDropdown>
-            <RegionFullColumns />
+            <RegionFullColumns separator="-" />
           </RegionDropdown>
         </div>
       </div>
