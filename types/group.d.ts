@@ -1,8 +1,16 @@
 import { BaseProps, CoreModuleEmits } from './component'
 
+interface GroupProps extends BaseProps {
+  /**
+   * 分隔符
+   * @default ''
+   */
+  separator?: string
+}
+
 declare interface RegionGroup {
   new (): {
-    $props: BaseProps
+    $props: GroupProps
     $emit: CoreModuleEmits
   }
 }

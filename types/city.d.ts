@@ -8,6 +8,11 @@ interface Props extends DropdownProps {
    */
   language?: RegionLanguages
   /**
+   * 分隔符
+   * @default ''
+   */
+  separator?: string
+  /**
    * 按钮中显示选中城市模式
    * true: 显示所有选中城市名称
    * false: 选中的城市多于两个时，仅显示前两个城市名称，其他城市会被收起

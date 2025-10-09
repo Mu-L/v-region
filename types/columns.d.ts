@@ -1,8 +1,16 @@
 import { BaseProps, CoreModuleEmits } from './component'
 
+interface ColumnProps extends BaseProps {
+  /**
+   * 分隔符
+   * @default ''
+   */
+  separator?: string
+}
+
 declare interface RegionColumns {
   new (): {
-    $props: BaseProps
+    $props: ColumnProps
     $emit: CoreModuleEmits
   }
 }

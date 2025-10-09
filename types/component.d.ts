@@ -1,4 +1,3 @@
-import { MethodOptions } from 'vue'
 import { AllowedComponentProps, ComponentCustomProps, VNodeProps } from 'vue'
 
 /**
@@ -81,6 +80,11 @@ export declare interface BaseProps extends ComponentProps {
    * @default `cn`
    */
   language?: RegionLanguages
+  /**
+   * 自动选择低级别列表中的第一个项目
+   * @default false
+   */
+  autoSelectFirst?: boolean
 }
 
 export declare interface DropdownProps {
