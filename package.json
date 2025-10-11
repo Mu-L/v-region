@@ -45,11 +45,11 @@
     "selector"
   ],
   "peerDependencies": {
-    "vue": "^3.4.0"
+    "vue": "^3.5.0"
   },
   "dependencies": {
     "v-dropdown": "^3.5.1",
-    "vue": "^3.5.13"
+    "vue": "^3.5.20"
   },
   "devDependencies": {
     "@rushstack/eslint-patch": "^1.10.5",
@@ -61,15 +61,15 @@
     "bootstrap": "^5.3.8",
     "eslint": "^8.50.0",
     "eslint-plugin-vue": "^9.17.0",
-    "jsdom": "^27.0.0",
+    "jsdom": "^26.1.0",
     "sass": "^1.93.2",
     "postcss": "^8.5.6",
     "autoprefixer": "^10.4.21",
     "typescript": "^5.9.2",
-    "vite": "^7.1.7",
+    "vite": "^7.1.9",
     "vite-plugin-css-injected-by-js": "^3.5.2",
     "vitest": "^3.2.4",
-    "vue-router": "^4.5.0",
-    "vue-tsc": "^3.0.8"
+    "vue-router": "^4.5.1",
+    "vue-tsc": "^3.1.1"
   }
 }
