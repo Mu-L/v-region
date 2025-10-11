@@ -1,36 +1,33 @@
 import { h } from 'vue'
 
 import { mergeBaseProps, mergeEmits } from '../../core/options'
-import { useRegion } from '../../core/base'
+import { useRegionUI } from '../../core/region-ui'
 
 export default {
+  name: 'RegionCore',
   props: mergeBaseProps(),
   emits: mergeEmits(),
   setup (props, { emit, expose }) {
     const {
       data,
+      lang,
       reset,
-      setData,
       setLevel,
-      getData,
       isComplete,
       regionText,
-      availableLevels,
       hasCity, hasArea, hasTown,
       setupTownListLoader
-    } = useRegion(props, emit)
+    } = useRegionUI(props, emit)
 
     expose({
       hasCity,
       hasArea,
       hasTown,
-      availableLevels,
 
       data,
+      lang,
       reset,
-      setData,
       setLevel,
-      getData,
       isComplete,
       regionText,
       setupTownListLoader

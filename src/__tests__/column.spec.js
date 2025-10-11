@@ -1,10 +1,10 @@
 import { describe, it, expect } from 'vitest'
 import { mount, flushPromises } from '@vue/test-utils'
 
-import { RegionColumnsDropdown } from './components/dropdown'
+import DropdownRegionColumns from './components/DropdownRegionColumns.vue'
 
 describe('RegionColumns 泳道模式核心模块', function () {
-  const wrapper = mount(RegionColumnsDropdown, {
+  const wrapper = mount(DropdownRegionColumns, {
     props: {
     }
   })

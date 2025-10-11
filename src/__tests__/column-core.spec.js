@@ -50,12 +50,12 @@ describe('v-region Column 竖排多列模式', () => {
       expect(wrapper.findAll('.rg-column')).toHaveLength(1)
     })
     it('v-model 响应数据变化，各级别数据应为空', () => {
-      const emits = wrapper.emitted('update:modelValue')
-      expect(emits[emits.length - 1][0]).toEqual(emptyDataModel)
+      const emits = wrapper.emitted('change')
+      expect(emits.at(-1)[0]).toEqual(emptyDataModel)
     })
     it('响应 change 事件，响应数据中各级别应为空', () => {
       const emits = wrapper.emitted('change')
-      expect(emits[emits.length - 1][0]).toEqual(emptyDataModel)
+      expect(emits.at(-1)[0]).toEqual(emptyDataModel)
     })
   })
 

@@ -36,3 +36,28 @@ export const emptyDataModel = {
   area: undefined,
   town: undefined
 }
+export const specialRegion1 = () => ({
+  province: '110000',
+  city: undefined,
+  area: undefined,
+  town: undefined
+})
+export const specialRegion2 = () => ({
+  province: '440000',
+  city: '441900',
+  area: undefined,
+  town: undefined
+})
+// 存在不配套编码，福建省-杭州市-...
+export const wrongLevelKey = () => ({
+  province: '350000',
+  city: '330100',
+  area: '350103',
+  town: '350103001'
+})
+export const emptyLevelKey = () => ({
+  province: '350000',
+  city: undefined,
+  area: '350103',
+  town: '350103001'
+})

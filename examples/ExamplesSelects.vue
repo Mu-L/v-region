@@ -58,69 +58,92 @@
             >自动选择第一项</label>
           </div>
         </div>
-        <div class="form-check form-check-inline">
-          <input
-            class="form-check-input"
-            type="checkbox"
-            id="inlineCheckboxCity"
-            v-model="enabledCity"
-            :true-value="true"
-            :false-value="false"
+        <div class="d-flex gap-3 align-items-center">
+          <div class="form-check form-check-inline">
+            <input
+              class="form-check-input"
+              type="checkbox"
+              id="inlineCheckboxCity"
+              v-model="enabledCity"
+              :true-value="true"
+              :false-value="false"
+            >
+            <label
+              class="form-check-label"
+              for="inlineCheckboxCity"
+            >City</label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input
+              class="form-check-input"
+              type="checkbox"
+              id="inlineCheckboxArea"
+              v-model="enabledArea"
+              :true-value="true"
+              :false-value="false"
+            >
+            <label
+              class="form-check-label"
+              for="inlineCheckboxArea"
+            >Area</label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input
+              class="form-check-input"
+              type="checkbox"
+              id="inlineCheckboxTown"
+              v-model="enabledTown"
+              :true-value="true"
+              :false-value="false"
+            >
+            <label
+              class="form-check-label"
+              for="inlineCheckboxTown"
+            >Town</label>
+          </div>
+          <button
+            type="button"
+            class="btn btn-dark"
+            @click="reset"
           >
-          <label
-            class="form-check-label"
-            for="inlineCheckboxCity"
-          >City</label>
-        </div>
-        <div class="form-check form-check-inline">
-          <input
-            class="form-check-input"
-            type="checkbox"
-            id="inlineCheckboxArea"
-            v-model="enabledArea"
-            :true-value="true"
-            :false-value="false"
+            Reset
+          </button>
+          <button
+            type="button"
+            class="btn btn-dark"
+            @click="reset1"
           >
-          <label
-            class="form-check-label"
-            for="inlineCheckboxArea"
-          >Area</label>
-        </div>
-        <div class="form-check form-check-inline">
-          <input
-            class="form-check-input"
-            type="checkbox"
-            id="inlineCheckboxTown"
-            v-model="enabledTown"
-            :true-value="true"
-            :false-value="false"
+            Reset 3 level
+          </button>
+          <button
+            type="button"
+            class="btn btn-dark"
+            @click="setToSpecial1"
           >
-          <label
-            class="form-check-label"
-            for="inlineCheckboxTown"
-          >Town</label>
+            Special 1
+          </button>
+          <button
+            type="button"
+            class="btn btn-dark"
+            @click="setToSpecial2"
+          >
+            Special 2
+          </button>
+          <button
+            type="button"
+            class="btn btn-dark"
+            @click="clear"
+          >
+            Clear
+          </button>
+          <button
+            type="button"
+            class="btn btn-light"
+            @click="toggleDisabled"
+          >
+            Disabled
+          </button>
         </div>
-        <button
-          type="button"
-          class="btn btn-dark me-3"
-          @click="reset"
-        >
-          Reset
-        </button>
-        <button
-          type="button"
-          class="btn btn-dark me-3"
-          @click="reset1"
-        >
-          Reset 3 level
-        </button>
-        <button
-          type="button"
-          class="btn btn-light"
-          @click="toggleDisabled"
-        >
-          Disabled
-        </button>
       </div>
 
       <div class="my-3 d-flex align-items-center">
@@ -207,6 +230,7 @@
 <script setup>
 import { ref } from 'vue'
 import { RegionSelects, RegionFullSelects } from '@/'
+import { specialRegion1, specialRegion2 } from '../src/__tests__/data'
 
 const value1 = ref({})
 const names = ref([])
@@ -281,5 +305,19 @@ function reset1 () {
     area: '130304',
     town: undefined
   }
+}
+function clear () {
+  modelSelect.value = {
+    province: undefined,
+    city: undefined,
+    area: undefined,
+    town: undefined
+  }
+}
+function setToSpecial1 () {
+  modelSelect.value = specialRegion1()
+}
+function setToSpecial2 () {
+  modelSelect.value = specialRegion2()
 }
 </script>

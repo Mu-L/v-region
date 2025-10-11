@@ -65,7 +65,13 @@
           </RegionDropdown>
         </div>
 
-        <div>
+        <div class="d-flex gap-3">
+          <button
+            class="btn btn-dark"
+            @click="setDropdownSelectedCities"
+          >
+            set selected cities
+          </button>
           <button
             type="button"
             class="btn btn-dark"
@@ -107,6 +113,9 @@ function cbCity (data) {
 // }
 function reset () {
   modelCity.value = []
+}
+function setDropdownSelectedCities () {
+  modelCity.value = ['130300', '130500', '500000', '310000']
 }
 function setSelectedCities () {
   coreKeys.value = ['130300', '130500', '500000', '310000']

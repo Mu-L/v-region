@@ -1,27 +1,23 @@
 import { computed, watch, provide, inject, onMounted, toRef } from 'vue'
 import { useEvent, useRegionCore } from './region-core'
 import { getLanguage, valueEqualToModel, isEmptyValues } from './helper'
-import { modelToValues, getEmptyValues, modelToText } from './parse'
+import { getEmptyValues } from './parse'
 import { PROVINCE, keyCore, keyDropdown } from '../constants'
 
 export function useRegionUI (props, emit, options) {
   const { emitUpdateModelValue, emitUpdateNames, emitChange } = useEvent(emit)
+  const { setTriggerText } = inject(keyDropdown, {})
   const lang = getLanguage(props.language)
   const {
     data,
-    hasCity,
-    hasArea,
-    hasTown,
+    hasCity, hasArea, hasTown,
     setupTownListLoader,
     resetRegion,
-    setRegion,
-    setRegionLevel,
-    toValues,
-    toModel,
+    setRegion, setRegionLevel,
+    toValues, toModel, toNames,
     isComplete
   } = useRegionCore(props)
-  const { setTriggerText } = inject(keyDropdown, {})
-  const regionText = computed(() => modelToText(data.value, 'name', props.separator || ''))
+  const regionText = computed(() => toNames().join(props.separator ?? ''))
 
   watch(() => props.modelValue, valuesChange)
   // 界面渲染完成，乡镇级别挂载完成，执行数据转换与匹配
@@ -51,12 +47,8 @@ export function useRegionUI (props, emit, options) {
     // 值与模型一致，不进行转换
     if (valueEqualToModel(props.modelValue, data.value)) return
     if (isEmptyValues(props.modelValue)) return reset()
-
-    setRegion(props.modelValue).then(responseChange)
-      .then(() => {
-        // 提供一个函数入口，在 v-model 值变化处理完成的后续处理
-        options?.afterModelChange?.()
-      })
+    // 提供一个函数入口，在 v-model 值变化处理完成的后续处理
+    setRegion(props.modelValue).then(responseChange).then(() => options?.afterModelChange?.())
   }
   function setLevel (level, key) {
     const values = getEmptyValues({ [level]: key })
@@ -67,7 +59,7 @@ export function useRegionUI (props, emit, options) {
       emitUpdateModelValue(toValues())
     }
     emitChange(toModel())
-    emitUpdateNames(modelToValues(data.value, 'name'))
+    emitUpdateNames(toNames())
     // 将数据模型传递给 dropdown 用于 trigger 的选中内容展示
     setTriggerText?.(regionText.value || lang.pleaseSelect)
   }

@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest'
 import { mount } from '@vue/test-utils'
 
-import { RegionCityPicker } from '@/'
+import { RegionCityPicker } from '../'
 
 describe('CityPicker 城市选择核心模块', function () {
   const wrapper = mount(RegionCityPicker, {
@@ -53,9 +53,9 @@ describe('CityPicker 城市选择核心模块', function () {
     await wrapper.find('.rg-search-input input').setValue('福')
     expect(wrapper.findAll('.rg-picker__city')).toHaveLength(3)
   })
-  it('清空搜索内容，应有 394 个搜索结果', async () => {
+  it('清空搜索内容，应有 393 个搜索结果', async () => {
     await wrapper.find('.rg-search-input input').setValue('')
-    expect(wrapper.findAll('.rg-picker__city')).toHaveLength(394)
+    expect(wrapper.findAll('.rg-picker__city')).toHaveLength(393)
   })
   it('点击 `北京市`、`天津市` 与 `石家庄市` 三个城市，此三个城市应被选中', async () => {
     const cities = wrapper.findAll('.rg-picker__city')

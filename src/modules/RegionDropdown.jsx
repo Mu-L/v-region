@@ -6,10 +6,8 @@ import { keyDropdown } from '../constants'
 
 export default defineComponent({
   name: 'RegionDropdown',
-  // props 必须使用硬编码的对象内容，使用函数构建的对象，会造成 tree-shanking
-  // 失效
-  props: {
-  },
+  // props 须用硬编码对象内容，使用函数构建的对象，会造成 tree-shanking 失效
+  props: {},
   setup (props, { slots }) {
     const triggerText = ref('')
 
@@ -22,16 +20,14 @@ export default defineComponent({
 
     provide(keyDropdown, { setTriggerText })
 
-    return () => {
-      const dropdownSlots = {
-        trigger: RegionDropdownTrigger,
-        default: data => (
-          <DropdownContent>
-            {() => slots?.default?.(data)}
-          </DropdownContent>
-        )
-      }
-      return <Dropdown v-slots={dropdownSlots} />
+    const dropdownSlots = {
+      trigger: RegionDropdownTrigger,
+      default: data => (
+        <DropdownContent>
+          {() => slots?.default?.(data)}
+        </DropdownContent>
+      )
     }
+    return () => <Dropdown v-slots={dropdownSlots} />
   }
 })

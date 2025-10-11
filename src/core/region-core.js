@@ -7,7 +7,7 @@ import {
 } from '../constants'
 import { regionProvinces } from '../formatted'
 import { getCities, getAreas } from './list-loader'
-import { modelToValue } from './parse'
+import { modelToValue, modelToValues } from './parse'
 
 /**
  * 响应 `v-model` 与 `change` 事件
@@ -29,7 +29,7 @@ const createRegionLevel = (enable, list) => ({
   list: list || [],
   enable,
   getModel () {
-    return { key: this.key, value: this.name }
+    return this.key ? { key: this.key, value: this.name } : undefined
   }
 })
 const getLevelIndex = level => LEVEL_KEYS.indexOf(level)
@@ -74,7 +74,11 @@ export function useRegionCore (props) {
       // 无效的编码
       throw new Error()
     }
-    if (autoSelectFirst.value && !options?.modelValueChange) {
+    // 启用 auto-select-first 或列表中仅有单一项目的场景，自动选中该级别项目
+    if (
+      !options?.modelValueChange &&
+      (autoSelectFirst.value || data.value[level].list.length === 1)
+    ) {
       return data.value[level].list.at(0)
     }
 
@@ -86,7 +90,7 @@ export function useRegionCore (props) {
     return options
   }
   const setLevelList = (level, options, list, enable) => {
-    if (!enable.value || !list.length) throw new Error()
+    if (!enable.value || !list.length) throw new Error(level + 'list')
     data.value[level].list = list
     return options
   }
@@ -132,6 +136,7 @@ export function useRegionCore (props) {
     setupTown.value = true
   }
   const toValues = () => modelToValue(data.value, 'key')
+  const toNames = () => modelToValues(data.value, 'name')
   const toModel = () => Object.fromEntries(
     LEVEL_KEYS.map(level => [level, getLevelModel(level)])
   )
@@ -147,6 +152,7 @@ export function useRegionCore (props) {
     setRegionLevel,
     setupTownListLoader,
     toValues,
-    toModel
+    toModel,
+    toNames
   }
 }

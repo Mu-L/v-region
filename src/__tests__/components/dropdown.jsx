@@ -1,6 +1,9 @@
-import RegionDropdown from '../../modules/RegionDropdown'
-
-import { RegionGroup, RegionColumns, RegionCityPicker } from '../../'
+import {
+  RegionDropdown,
+  RegionGroup,
+  RegionColumns,
+  RegionCityPicker
+} from '../../'
 
 export function RegionGroupDropdown (props) {
   return (
@@ -19,9 +22,10 @@ export function RegionColumnsDropdown (props) {
 }
 
 export function RegionCityPickerDropdown (props) {
+  console.log(arguments)
   return (
-    <RegionDropdown>
-      <RegionCityPicker {...props} />
-    </RegionDropdown>
+    <RegionDropdown>{{
+      default: () => <RegionCityPicker {...props} />
+    }}</RegionDropdown>
   )
 }

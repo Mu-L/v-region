@@ -2,6 +2,7 @@ import { describe, it, expect, vi } from 'vitest'
 import { mount, flushPromises } from '@vue/test-utils'
 
 import { RegionGroup, RegionFullGroup } from '../'
+import { model } from './data'
 
 describe('v-region RegionGroupCore 多级别分组核心模块', function () {
   describe('三级模式', () => {
@@ -130,6 +131,15 @@ describe('v-region RegionGroupCore 多级别分组核心模块', function () {
     it('关闭 town 级别，则只有 3 个行政级别', async () => {
       await wrapper.setProps({ town: false })
       expect(wrapper.findAll('.rg-level-tabs li')).toHaveLength(3)
+    })
+    it('通过 v-model 初始化，应设置成功福建省福州市台江区瀛洲街道', async () => {
+      const fullInit = mount(RegionFullGroup, {
+        props: {
+          modelValue: model
+        }
+      })
+      await vi.dynamicImportSettled()
+      expect(fullInit.find('.rg-header-text').text()).toBe('福建省福州市台江区瀛洲街道')
     })
   })
 })
