@@ -2,6 +2,20 @@
 
 英文 changelog 内容请访问 [CHANGELOG](CHANGELOG.md)
 
+## [3.5.0](https://github.com/TerryZ/v-region/compare/v3.4.1...v3.5.0) (2025-10-11)
+
+### 新特性
+
+- `v-dropdown` 升级至 `v3.5.1` 版本
+- 行政区划数据更新至 `2025年10月09日` 版本
+- 新增 `autoSelectFirst` prop，用于选择级别时，所有下级行政级别均自动选择第一个项目，应用于 `Selects`、`Group`、`Columns` 系列组件
+- 直辖市、直筒子市与省辖县等特殊情况只有单一下级数据时，自动选择该项目
+- 添加 `separator` prop，设置级别文本间的分隔符
+
+### 重构
+
+- 核心数据应用队列处理
+
 ## [3.4.1](https://github.com/TerryZ/v-region/compare/v3.4.0...v3.4.1) (2025-03-09)
 
 ### 新特性

@@ -2,6 +2,20 @@
 
 Please refer to [CHANGELOG-CN](CHANGELOG-CN.md) for Chinese changelog
 
+## [3.5.0](https://github.com/TerryZ/v-region/compare/v3.4.1...v3.5.0) (2025-10-11)
+
+### Features
+
+- Upgraded `v-dropdown` to version `v3.5.1`
+- Administrative division data updated to `2025-10-09`
+- Added `autoSelectFirst` prop to automatically select the first item for all subordinate administrative levels when selecting a level. This applies to the `Selects`, `Group`, and `Columns` components
+- Automatically select the item when only a single subordinate level is available, such as for municipalities, direct-controlled sub-cities, and provincial counties
+- Added the `separator` prop to set the separator between level text
+
+### Refactor
+
+- Core Data uses queue processing
+
 ## [3.4.1](https://github.com/TerryZ/v-region/compare/v3.4.0...v3.4.1) (2025-03-09)
 
 ### Features
