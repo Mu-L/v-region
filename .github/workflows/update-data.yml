@@ -33,6 +33,7 @@ jobs:
           mkdir -p src/data/town
           cp tmp-data/code/* src/data/town
           cp tmp-data/list.json src/data/data.json
+          rm -rf tmp-data
 
       - name: 检查是否有变更
         id: check
