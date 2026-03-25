@@ -58,6 +58,26 @@ jobs:
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
+      - name: 获取 commit message
+        id: commit
+        run: |
+          echo "message<<EOF" >> $GITHUB_OUTPUT
+          git log -1 --pretty=%B >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+      - name: 提取 release note
+        id: note
+        run: |
+          msg="${{ steps.commit.outputs.message }}"
+
+          note=$(echo "$msg" | awk '/\[release-note\]/ {flag=1; next} flag')
+
+          if [ -z "$note" ]; then
+            echo "note=详细信息请参阅 [CHANGELOG-CN.md](https://github.com/TerryZ/v-region/blob/dev/CHANGELOG-CN.md)" >> $GITHUB_OUTPUT
+          else
+            echo "note<<EOF" >> $GITHUB_OUTPUT
+            echo "$note" >> $GITHUB_OUTPUT
+            echo "EOF" >> $GITHUB_OUTPUT
+          fi
       - name: Get version from package.json
         id: version
         run: |
@@ -69,6 +89,6 @@ jobs:
           name: "v${{ steps.version.outputs.version }}"
           tag_name: "v${{ steps.version.outputs.version }}"
           body: |
-            详细信息请参阅 [CHANGELOG-CN.md](https://github.com/TerryZ/v-region/blob/dev/CHANGELOG-CN.md)
+            ${{ steps.note.outputs.note }}
           draft: false
           prerelease: false

@@ -1,0 +1,108 @@
+name: Update data
+
+on:
+  # 允许在界面上手动触发
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout dev 分支
+        uses: actions/checkout@v4
+        with:
+          ref: dev
+
+      - name: 设置 Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22.x'
+
+      - name: 拉取数据源
+        run: |
+          git clone https://github.com/mumuy/data_location.git tmp-data
+
+      - name: 更新数据
+        run: |
+          rm -rf src/data/*
+          cp tmp-data/code/* src/data/town
+          cp tmp-data/list.json src/data/data.json
+
+      - name: 检查是否有变更
+        id: check
+        run: |
+          if git diff --quiet; then
+            echo "changed=false" >> $GITHUB_OUTPUT
+          else
+            echo "changed=true" >> $GITHUB_OUTPUT
+          fi
+
+      - name: 更新版本号 & dataVersion
+        id: versioning
+        if: steps.check.outputs.changed == 'true'
+        run: |
+          # bump patch version
+          npm version patch --no-git-tag-version
+
+          # 生成 dataVersion
+          DATA_VERSION=$(date +%F)
+
+          # 更新 dataVersion（写入当天日期）
+          node -e "
+            const fs = require('fs');
+            const pkg = JSON.parse(fs.readFileSync('package.json'));
+            pkg.dataVersion = '${DATA_VERSION}';
+            fs.writeFileSync('package.json', JSON.stringify(pkg, null, 2));
+          "
+          # 更新 README.md 中的 dataVersion
+          node -e "
+            const fs = require('fs');
+            const file = 'README.md';
+
+            let content = fs.readFileSync(file, 'utf-8');
+
+            content = content.replace(
+              /<!-- DATA_VERSION -->.*<!-- DATA_VERSION_END -->/,
+              \`<!-- DATA_VERSION -->\`${DATA_VERSION}`<!-- DATA_VERSION_END -->\`
+            );
+
+            fs.writeFileSync(file, content);
+          "
+
+          # 导出给后续步骤
+          echo "dataVersion=$DATA_VERSION" >> $GITHUB_OUTPUT
+
+      - name: 提交到 dev
+        if: steps.check.outputs.changed == 'true'
+        run: |
+          git config user.name "github-actions"
+          git config user.email "github-actions@github.com"
+          git add .
+          git commit -m "chore: sync region data & bump version
+
+          [release-note]
+          行政区划数据源更新至：${{ steps.versioning.outputs.dataVersion }}
+          "
+          git push origin dev
+
+      - name: 合并到 master
+        if: steps.check.outputs.changed == 'true'
+        run: |
+          # 确保获取所有分支的最新状态
+          git fetch origin master
+
+          # 切换到 master 分支
+          git checkout master
+
+          # 合并 dev 分支到当前分支 (master)
+          # --no-ff (可选): 保留合并提交节点
+          # --ff-only (可选): 仅允许快进合并
+          git merge dev
+
+          # 推送合并后的 master 到远程
+          git push origin master
