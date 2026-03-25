@@ -69,8 +69,8 @@ jobs:
             let content = fs.readFileSync(file, 'utf-8');
 
             content = content.replace(
-              /<!-- DATA_VERSION -->.*<!-- DATA_VERSION_END -->/,
-              '<!-- DATA_VERSION -->`${DATA_VERSION}`<!-- DATA_VERSION_END -->'
+              /<!-- DATA_VERSION -->.*<!-- DATA_VERSION_END -->/s,
+              '<!-- DATA_VERSION -->\`${DATA_VERSION}\`<!-- DATA_VERSION_END -->'
             );
 
             fs.writeFileSync(file, content);
