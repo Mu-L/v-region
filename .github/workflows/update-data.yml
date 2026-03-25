@@ -99,11 +99,15 @@ jobs:
 
           # 切换到 master 分支
           git checkout master
+          git reset --hard origin/master
 
           # 合并 dev 分支到当前分支 (master)
           # --no-ff (可选): 保留合并提交节点
           # --ff-only (可选): 仅允许快进合并
-          git merge dev
+          git merge --ff-only origin/dev || {
+            echo "Nothing to merge or conflict"
+            exit 0
+          }
 
           # 推送合并后的 master 到远程
           git push origin master
