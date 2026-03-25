@@ -21,7 +21,7 @@ jobs:
       - name: 设置 Node
         uses: actions/setup-node@v4
         with:
-          node-version: '22.x'
+          node-version: '24.x'
 
       - name: 拉取数据源
         run: |
@@ -30,6 +30,7 @@ jobs:
       - name: 更新数据
         run: |
           rm -rf src/data/*
+          mkdir -p src/data/town
           cp tmp-data/code/* src/data/town
           cp tmp-data/list.json src/data/data.json
 
