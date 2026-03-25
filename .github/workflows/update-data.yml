@@ -69,7 +69,7 @@ jobs:
 
             content = content.replace(
               /<!-- DATA_VERSION -->.*<!-- DATA_VERSION_END -->/,
-              \`<!-- DATA_VERSION -->\`\${DATA_VERSION}\`<!-- DATA_VERSION_END -->\`
+              '<!-- DATA_VERSION -->`${DATA_VERSION}`<!-- DATA_VERSION_END -->'
             );
 
             fs.writeFileSync(file, content);
