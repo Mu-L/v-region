@@ -39,12 +39,12 @@ jobs:
       - name: 检查是否有变更
         id: check
         run: |
-          # if git diff --quiet; then
-          #   echo "changed=false" >> $GITHUB_OUTPUT
-          # else
-          #   echo "changed=true" >> $GITHUB_OUTPUT
-          # fi
-          echo "changed=true" >> $GITHUB_OUTPUT
+          if git diff --quiet; then
+            echo "changed=false" >> $GITHUB_OUTPUT
+          else
+            echo "changed=true" >> $GITHUB_OUTPUT
+          fi
+          #echo "changed=true" >> $GITHUB_OUTPUT
 
       - name: 更新版本号 & dataVersion
         id: versioning
@@ -111,3 +111,10 @@ jobs:
 
           # 推送合并后的 master 到远程
           git push origin master
+      - name: 触发 npm publish
+        if: steps.check.outputs.changed == 'true'
+        run: |
+          gh workflow run npm-publish.yml \
+            --ref master
+        env:
+          GH_TOKEN: ${{ secrets.PAT_TOKEN }}
