@@ -1,7 +1,7 @@
 name: Update data
 
 on:
-  # 允许在界面上手动触发
+  # 允许在 Github Action 界面上手动触发
   workflow_dispatch:
 
 permissions:
