@@ -2,6 +2,12 @@
 
 Please refer to [CHANGELOG-CN](CHANGELOG-CN.md) for Chinese changelog
 
+## [3.5.2](https://github.com/TerryZ/v-region/compare/v3.5.1...v3.5.2) (2026-04-02)
+
+### Features
+
+- Administrative division data updated for Liangjiang New Area townships
+
 ## [3.5.1](https://github.com/TerryZ/v-region/compare/v3.5.0...v3.5.1) (2026-03-27)
 
 ### Features

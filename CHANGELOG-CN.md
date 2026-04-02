@@ -2,6 +2,12 @@
 
 英文 changelog 内容请访问 [CHANGELOG](CHANGELOG.md)
 
+## [3.5.2](https://github.com/TerryZ/v-region/compare/v3.5.1...v3.5.2) (2026-04-02)
+
+### 新特性
+
+- 行政区划数据更新两江新区乡镇数据
+
 ## [3.5.1](https://github.com/TerryZ/v-region/compare/v3.5.0...v3.5.1) (2026-03-27)
 
 ### 新特性
